@@ -1,28 +1,53 @@
+import { LatLngTuple } from "leaflet";
 import { ReactElement, createContext, useState } from "react";
 
 interface Props {
-    children: ReactElement
+    children: ReactElement;
 }
+interface ipDataType {
+    as?: string;
+    city?: string;
+    country?: string;
+    countryCode?: string;
+    isp?: string;
+    lat?: number;
+    lon?: number;
+    org?: number;
+    query?: string;
+    region?: string;
+    regionName?: string;
+    status?: string;
+    timezone?: string;
+    zip?: string;
+}
+
 interface contextType {
-    ipData?: unknown
-    updateIpData?: (data: unknown) => void
+    ip?: string;
+    ipData?: ipDataType;
+    ipLocation?: LatLngTuple;
+    updateIpData?: (data: ipDataType) => void;
+    updateIp?: (newIp: string) => void;
+    updateIpLocation?: (newLocation: LatLngTuple) => void
 }
 
-export const ipDataContext = createContext<contextType>({})
-
+export const ipDataContext = createContext<contextType>({});
 
 export function IpDataProvider(props: Props) {
-    //gonna create a function that updates the ip data context 
 
-    const [ipData, setIpData] = useState<unknown>({ idk: "465" })
-    const updateIpData = (data: unknown) => {
-        setIpData(data)
-    }
-    const contextValue = { ipData, updateIpData }
+    const [ip, setIp] = useState("");
+    const [ipData, setIpData] = useState<ipDataType>({});
+    const [ipLocation, setIpLocation] = useState<LatLngTuple>()
+
+    const updateIpData = (data: ipDataType) => setIpData(data);
+    const updateIp = (newIp: string) => setIp(newIp);
+    const updateIpLocation = (newLocation: LatLngTuple) => setIpLocation(newLocation)
+
+
+    const contextValue = { ipData, updateIpData, updateIp, ip, ipLocation, updateIpLocation };
 
     return (
         <ipDataContext.Provider value={contextValue}>
             {props.children}
         </ipDataContext.Provider>
-    )
+    );
 }
