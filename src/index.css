@@ -674,3 +674,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   height: 500px;
   width: 100vw;
 }
+@media only screen and (max-width: 500px) {
+  .leaflet-container {
+    height: 65vh;
+  }
+}
